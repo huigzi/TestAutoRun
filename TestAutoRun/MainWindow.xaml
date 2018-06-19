@@ -1,0 +1,398 @@
+﻿<Window x:Class="TestAutoRun.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d3 ="clr-namespace:InteractiveDataDisplay.WPF;assembly=InteractiveDataDisplay.WPF"
+        xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
+        xmlns:local="clr-namespace:TestAutoRun"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="Control Plantform" Height="900" Width="1600" Loaded="Window_Loaded" Closing="Window_Closing"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <x:Array x:Key="Item" Type="{x:Type sys:String}">
+            <sys:String>白噪声</sys:String>
+            <sys:String>正弦波</sys:String>
+            <sys:String>扫频</sys:String>
+        </x:Array>
+
+        <x:Array x:Key="Freq" Type="{x:Type sys:String}">
+            <sys:String>1000</sys:String>
+            <sys:String>2000</sys:String>
+            <sys:String>4000</sys:String>
+            <sys:String>8000</sys:String>
+        </x:Array>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="205*"/>
+            <ColumnDefinition Width="433*"/>
+            <ColumnDefinition Width="183*"/>
+            <ColumnDefinition Width="771*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="230*"/>
+            <RowDefinition Height="279*"/>
+            <RowDefinition Height="360*"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="设置"  Name="GroupBox1" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Content="本地IP地址" Name="Label1" HorizontalContentAlignment="Center"
+                       VerticalContentAlignment="Center" FontWeight="Bold" />
+                <TextBox Name="IpAddress" Grid.Row="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center" FontWeight="Bold" Margin="10,0,10,0"
+                         input:InputMethod.IsInputMethodEnabled="False" KeyDown="IpAddress_KeyDown"/>
+                <Label Content="数据端口" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       FontWeight="Bold" />
+                <TextBox Name="ProtNum" Grid.Row="3" HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center" FontWeight="Bold" Margin="10,0,10,0"
+                         input:InputMethod.IsInputMethodEnabled="False" KeyDown="ProtNum_KeyDown"/>
+                <ToggleButton IsChecked="False" x:Name="Connectbutton" Grid.Row="4" Click="Connectbutton_Click"
+                              Grid.RowSpan="2" FontWeight="Bold" VerticalContentAlignment="Center" Margin="10,20,10,10">
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton">
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Content" Value="断开服务" ></Setter>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="False">
+                                    <Setter Property="Content" Value="启动服务" ></Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="功能"  Grid.Row="1" Grid.Column="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="BtnSend2" Content="测量数据保存" Grid.Row="0"
+                        IsEnabled="{Binding Path=IsChecked,ElementName=Connectbutton}" Margin="10,10,10,10"
+                        Click="BtnSend2_Click" FontWeight="Bold" />
+                <Button x:Name="BtnSend3" Content="" Grid.Row="2"
+                        IsEnabled="{Binding Path=IsChecked,ElementName=RuntimeButton}" Margin="10,10,10,10"
+                        Click="BtnSend3_Click" FontWeight="Bold" />
+                <Button x:Name="BtnSend9" Content="解除报警" Margin="10,10,10,10" FontWeight="Bold" Grid.Row="3"
+                        Click="BtnSend9_Click" />
+                <Button x:Name="BtnSend6" Content="加载并发送辨识参数" Margin="10,10,10,10" FontWeight="Bold" Grid.Row="1"
+                        Click="BtnSend6_Click" IsEnabled="{Binding Path=IsChecked,ElementName=RuntimeButton}" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Header="控制区" Grid.Row="1" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="238*"/>
+                    <ColumnDefinition Width="183*"/>
+                </Grid.ColumnDefinitions>
+                <GroupBox Header="通道辨识控制">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="75*"/>
+                            <ColumnDefinition Width="37*"/>
+                            <ColumnDefinition Width="27*"/>
+                            <ColumnDefinition Width="36*"/>
+                            <ColumnDefinition Width="51*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="秒" Grid.Column="4" Grid.Row="0" HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Center" FontWeight="Bold" />
+                        <Label Content="通道" Grid.Column="4" Grid.Row="1" HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Center" FontWeight="Bold" />
+                        <Label Content="信号" Grid.Column="4" Grid.Row="5" HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Center" FontWeight="Bold" />
+                        <Label Content="信号持续时间" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Center" FontWeight="Bold" Grid.ColumnSpan="2" />
+                        <Label Content="信号发声通道" Grid.Column="0" Grid.Row="1" HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Center" FontWeight="Bold" Grid.ColumnSpan="2" />
+                        <Label Content="信号幅度（归一化）" Grid.Column="0" Grid.Row="2" HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Center" FontWeight="Bold" Grid.ColumnSpan="2" />
+                        <Label Content="信号类型" Grid.Column="0" Grid.Row="5" HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Center" FontWeight="Bold" Grid.ColumnSpan="2" />
+                        <!--<Label Grid.ColumnSpan="2" Content="信号持续时间" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Grid.Column="1" Margin="4,11,23,11"/>-->
+                        <ComboBox x:Name="Cmbox" ItemsSource="{Binding Source={StaticResource Item}}" Grid.Row="5"
+                                  FontWeight="Bold" VerticalAlignment="Center" Height="20" Grid.Column="2" Margin="0,5"
+                                  Grid.ColumnSpan="2" IsEnabled="{Binding Path=IsChecked,ElementName=RuntimeButton}"/>
+                        <TextBox x:Name="Duration" Grid.Row="0" TextWrapping="Wrap" HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center" Margin="0,5,0,5" Grid.Column="2" Grid.ColumnSpan="2"
+                                 MaxLength="2" KeyDown="Duration_KeyDown" TextChanged="Duration_TextChanged"
+                                 input:InputMethod.IsInputMethodEnabled="False" FontWeight="Bold"  IsEnabled="{Binding Path=IsChecked,ElementName=RuntimeButton}"/>
+                        <TextBox x:Name="ChannelNum" Grid.Row="1" TextWrapping="Wrap" HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center" Margin="0,5,0,5" Grid.Column="2" Grid.ColumnSpan="2"
+                                 MaxLength="2" KeyDown="ChannelNum_KeyDown" TextChanged="ChannelNum_TextChanged"
+                                 input:InputMethod.IsInputMethodEnabled="False" FontWeight="Bold" IsEnabled="{Binding Path=IsChecked,ElementName=RuntimeButton}"/>
+                        <Label x:Name="Range" Grid.Row="2" Content="{Binding ElementName=Slider, Path=Value}"
+                                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                                 Grid.Column="4" input:InputMethod.IsInputMethodEnabled="False" FontWeight="Bold" IsEnabled="{Binding Path=IsChecked,ElementName=RuntimeButton}"/>
+                        <Button x:Name="BtnSend5" Content="开始辨识" Grid.Row="6" Click="BtnSend5_Click"
+                                Grid.ColumnSpan="5"
+                                Grid.Column="0" Margin="10,5,10,5" FontWeight="Bold" IsEnabled="{Binding Path=IsChecked,ElementName=RuntimeButton}"/>
+                        <Slider x:Name="Slider" Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" Maximum="1" IsSnapToTickEnabled="True"
+                                Ticks="0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1" Margin="0,5,0,5" Height="18" Grid.ColumnSpan="2" IsEnabled="{Binding Path=IsChecked,ElementName=RuntimeButton}"/>
+                        <Label Content="扫频范围" Grid.Row="3" Grid.Column="0" HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Center" FontWeight="Bold" />
+                        <Label Content="Hz" Grid.Column="4" Grid.Row="3" HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Center" FontWeight="Bold" />
+                        <TextBox x:Name="Min" Grid.Column="1" Grid.Row="3" HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center" FontWeight="Bold" Margin="0,5,0,5" MaxLength="4"
+                                 input:InputMethod.IsInputMethodEnabled="False" KeyDown="Min_KeyDown" TextChanged="Min_TextChanged" IsEnabled="{Binding Path=IsChecked,ElementName=RuntimeButton}"/>
+                        <Label Content="至" Grid.Column="2" Grid.Row="3" HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Center" FontWeight="Bold" />
+                        <TextBox x:Name="Max" Grid.Column="3" Grid.Row="3" HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center" FontWeight="Bold" Margin="0,5,0,5" MaxLength="4"
+                                 input:InputMethod.IsInputMethodEnabled="False" KeyDown="Max_KeyDown" TextChanged="Max_TextChanged" IsEnabled="{Binding Path=IsChecked,ElementName=RuntimeButton}"/>
+                        <Label Content="正弦波信号频率" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="4"
+                               HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" />
+                        <TextBox x:Name="FreqText" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"
+                                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                 FontWeight="Bold" Margin="0,5,0,5" MaxLength="4" IsEnabled="{Binding Path=IsChecked,ElementName=RuntimeButton}"
+                                 input:InputMethod.IsInputMethodEnabled="False" KeyDown="FreqText_KeyDown"/>
+                        <Label Content="Hz" Grid.Column="4" Grid.Row="4" HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Center" FontWeight="Bold" />
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Grid.Column="1" Header="工作状态控制">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="62*"/>
+                            <ColumnDefinition Width="24*"/>
+                            <ColumnDefinition Width="37*"/>
+                            <ColumnDefinition Width="48*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <ToggleButton IsChecked="False" x:Name="RuntimeButton" Click="Runtime_Click" Grid.Row="3"
+                                      FontWeight="Bold" VerticalContentAlignment="Center" Grid.ColumnSpan="4"
+                                      Margin="10,5,10,5" IsEnabled="{Binding IsChecked, ElementName=Connectbutton}">
+                            <ToggleButton.Style>
+                                <Style TargetType="{x:Type ToggleButton}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Content" Value="变为工作状态" />
+                                        </Trigger>
+                                        <Trigger Property="IsChecked" Value="False">
+                                            <Setter Property="Content" Value="变为调试状态" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                        <Button x:Name="BtnSend1" Content="加载配置" Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="2"
+                                Margin="10,5,10,5" Click="BtnSend1_Click" FontWeight="Bold" />
+                        <Button x:Name="FreqChange" Content="配置变更" Grid.Row="2" Margin="10,5,10,5" FontWeight="Bold"
+                                Grid.ColumnSpan="4"
+                                Grid.Column="0" Click="FreqChange_Click" IsEnabled="{Binding Path=IsChecked,ElementName=RuntimeButton}"/>
+                        <Label Content="Hz" Grid.Row="0" Grid.Column="3" HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Center" FontWeight="Bold" />
+                        <ComboBox x:Name="FreqCombox" Grid.Column="1" IsEnabled="{Binding Path=IsChecked,ElementName=RuntimeButton}"
+                                  ItemsSource="{Binding Source={StaticResource Freq}}"
+                                  Grid.Row="0" Grid.ColumnSpan="2"  FontWeight="Bold" VerticalAlignment="Center" Height="21" Margin="0,13"/>
+                        <Label Grid.Row="0" Grid.Column="0" Content="采样率" HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Center" FontWeight="Bold" />
+                        <Button Grid.ColumnSpan="2" Grid.Column="0" Content="保存配置" Grid.Row="4" Margin="10,5,10,5"
+                                FontWeight="Bold" IsEnabled="{Binding Path=IsChecked,ElementName=Connectbutton}" />
+                        <Label Content="失控阈值" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1"
+                               Grid.Column="0" FontWeight="Bold"/>
+                        <Label Content="%" Grid.Column="3" Grid.Row="1" FontWeight="Bold"
+                               HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                        <TextBox x:Name="Threshold" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"
+                                 Margin="0,10,0,10" FontWeight="Bold" HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center" input:InputMethod.IsInputMethodEnabled="False" KeyDown="Threshold_KeyDown" IsEnabled="{Binding Path=IsChecked,ElementName=RuntimeButton}"/>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="2" Header="下位机状态" Grid.Row="1" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="7*"/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="NetMsg" Grid.Row="1" Grid.ColumnSpan="2" HorizontalContentAlignment="Center"
+                       VerticalContentAlignment="Center" FontWeight="Bold" />
+                <Label Content="网络信息"  HorizontalContentAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2"
+                       Grid.Column="0" VerticalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Height="24" Margin="0,4"/>
+                <Label Content="当前数据保存路径" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="2"
+                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"
+                       FontWeight="Bold" Height="24" Margin="0,4" />
+                <TextBox x:Name="PathContext" Grid.Row="3" Grid.Column="0" VerticalContentAlignment="Center">
+                </TextBox>
+                <Label Content="当前采样率" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="4"
+                       VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                       FontWeight="Bold" />
+                <Label x:Name="SampleContent" Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="0"
+                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  FontWeight="Bold"/>
+                <Label Content="工作状态" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="6"
+                       VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                       FontWeight="Bold" />
+                <Label x:Name="WorkStateContext" Grid.Row="7" Grid.ColumnSpan="2" Grid.Column="0"
+                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <Button Content="..." Grid.Column="1"  Grid.Row="3" Click="Button_Click" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="0" Grid.Column="1" Header="消息显示">
+            <ListBox x:Name="LbxMsg"/>
+        </GroupBox>
+        <GroupBox Grid.Row="0" Grid.Column="2" Header="显示通道选择">
+            <Grid x:Name="ChannelList">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <CheckBox x:Name="CheckBox1" Content="1通道L" HorizontalAlignment="Left" VerticalAlignment="Center"
+                          IsChecked="True" Click="CheckBox1_Click" />
+                <CheckBox x:Name="CheckBox2" Content="1通道R" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left"
+                          VerticalAlignment="Center" IsChecked="False" Click="CheckBox2_Click" />
+                <CheckBox x:Name="CheckBox3" Grid.Row="1" Grid.Column="0" Content="2通道L" HorizontalAlignment="Left"
+                          VerticalAlignment="Center" IsChecked="False" Click="CheckBox3_Click" />
+                <CheckBox x:Name="CheckBox4" Grid.Row="1" Grid.Column="1" Content="2通道R" HorizontalAlignment="Left"
+                          VerticalAlignment="Center" IsChecked="False" Click="CheckBox4_Click" />
+                <CheckBox x:Name="CheckBox5" Grid.Row="2" Grid.Column="0" Content="3通道L" HorizontalAlignment="Left"
+                          VerticalAlignment="Center" IsChecked="False" Click="CheckBox5_Click" />
+                <CheckBox x:Name="CheckBox6" Grid.Row="2" Grid.Column="1" Content="3通道R" HorizontalAlignment="Left"
+                          VerticalAlignment="Center" IsChecked="False" Click="CheckBox6_Click" />
+                <CheckBox x:Name="CheckBox7" Grid.Row="3" Grid.Column="0" Content="4通道L" HorizontalAlignment="Left"
+                          VerticalAlignment="Center" IsChecked="False" Click="CheckBox7_Click" />
+                <CheckBox x:Name="CheckBox8" Grid.Row="3" Grid.Column="1" Content="4通道R" HorizontalAlignment="Left"
+                          VerticalAlignment="Center" IsChecked="False" Click="CheckBox8_Click" />
+                <CheckBox x:Name="CheckBox9" Grid.Row="4" Grid.Column="0" Content="5通道L" HorizontalAlignment="Left"
+                          VerticalAlignment="Center" IsChecked="False" Click="CheckBox9_Click" />
+                <CheckBox x:Name="CheckBox10" Grid.Row="4" Grid.Column="1" Content="5通道R" HorizontalAlignment="Left"
+                          VerticalAlignment="Center" IsChecked="False" Click="CheckBox10_Click" />
+                <CheckBox x:Name="CheckBox11" Grid.Row="5" Grid.Column="0" Content="6通道L" HorizontalAlignment="Left"
+                          VerticalAlignment="Center" IsChecked="False" Click="CheckBox11_Click" />
+                <CheckBox x:Name="CheckBox12" Grid.Row="5" Grid.Column="1" Content="6通道R" HorizontalAlignment="Left"
+                          VerticalAlignment="Center" IsChecked="False" Click="CheckBox12_Click" />
+                <CheckBox x:Name="CheckBox13" Grid.Row="6" Grid.Column="0" Content="7通道L" HorizontalAlignment="Left"
+                          VerticalAlignment="Center" IsChecked="False" Click="CheckBox13_Click" />
+                <CheckBox x:Name="CheckBox14" Grid.Row="6" Grid.Column="1" Content="7通道R" HorizontalAlignment="Left"
+                          VerticalAlignment="Center" IsChecked="False" Click="CheckBox14_Click" />
+                <CheckBox x:Name="CheckBox15" Grid.Row="7" Grid.Column="0" Content="8通道L" HorizontalAlignment="Left"
+                          VerticalAlignment="Center" IsChecked="False" Click="CheckBox15_Click" />
+                <CheckBox x:Name="CheckBox16" Grid.Row="7" Grid.Column="1" Content="8通道R" HorizontalAlignment="Left"
+                          VerticalAlignment="Center" IsChecked="False" Click="CheckBox16_Click" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="3" Header="图形区" Grid.Row="0" Grid.RowSpan="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <GroupBox Header="时域图">
+                    <d3:Chart Name="Plotter1">
+                        <d3:Chart.Title>
+                            <TextBlock HorizontalAlignment="Center" FontSize="15" Margin="0,5,0,5">时域图</TextBlock>
+                        </d3:Chart.Title>
+                        <d3:Chart.LegendContent>
+                            <d3:LegendItemsPanel>
+                                <d3:LegendItemsPanel.Resources>
+                                    <DataTemplate x:Key="InteractiveDataDisplay.WPF.LineGraph">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Line Width="15" Height="15" X1="0" Y1="0" X2="15" Y2="15"
+                                                  Stroke="{Binding Path=Stroke}" StrokeThickness="2" />
+                                            <TextBlock Margin="5,0,0,0" Text="{Binding Path=Description}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </d3:LegendItemsPanel.Resources>
+                            </d3:LegendItemsPanel>
+                        </d3:Chart.LegendContent>
+                        <Grid Name="Tlines"/>
+                    </d3:Chart>
+                </GroupBox>
+                <GroupBox Header="频域图" Grid.Row="1">
+                    <d3:Chart Name="Plotter2">
+                        <d3:Chart.Title>
+                            <TextBlock HorizontalAlignment="Center" FontSize="15" Margin="0,5,0,5">频域图</TextBlock>
+                        </d3:Chart.Title>
+                        <d3:Chart.LegendContent>
+                            <d3:LegendItemsPanel>
+                                <d3:LegendItemsPanel.Resources>
+                                    <DataTemplate x:Key="InteractiveDataDisplay.WPF.LineGraph">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Line Width="15" Height="15" X1="0" Y1="0" X2="15" Y2="15"
+                                                  Stroke="{Binding Path=Stroke}" StrokeThickness="2" />
+                                            <TextBlock Margin="5,0,0,0" Text="{Binding Path=Description}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </d3:LegendItemsPanel.Resources>
+                            </d3:LegendItemsPanel>
+                        </d3:Chart.LegendContent>
+                        <Grid Name="Flines"/>
+                    </d3:Chart>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="信号预览"  Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0">
+            <d3:Chart Name="Plotter3">
+                <d3:Chart.Title>
+                    <TextBlock HorizontalAlignment="Center" FontSize="15" Margin="0,5,0,5">信号预览图</TextBlock>
+                </d3:Chart.Title>
+                <d3:Chart.LegendContent>
+                    <d3:LegendItemsPanel>
+                        <d3:LegendItemsPanel.Resources>
+                            <DataTemplate x:Key="InteractiveDataDisplay.WPF.LineGraph">
+                                <StackPanel Orientation="Horizontal">
+                                    <Line Width="15" Height="15" X1="0" Y1="0" X2="15" Y2="15"
+                                          Stroke="{Binding Path=Stroke}" StrokeThickness="2" />
+                                    <TextBlock Margin="5,0,0,0" Text="{Binding Path=Description}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </d3:LegendItemsPanel.Resources>
+                    </d3:LegendItemsPanel>
+                </d3:Chart.LegendContent>
+                <Grid Name="T2Lines"/>
+            </d3:Chart>
+        </GroupBox>
+    </Grid>
+</Window>
