@@ -289,37 +289,37 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <CheckBox x:Name="CheckBox1" Content="1通道L" HorizontalAlignment="Left" VerticalAlignment="Center"
+                <CheckBox x:Name="CheckBox1" Content="1通道" HorizontalAlignment="Left" VerticalAlignment="Center"
                           IsChecked="True" Click="CheckBox1_Click" />
-                <CheckBox x:Name="CheckBox2" Content="1通道R" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left"
+                <CheckBox x:Name="CheckBox2" Content="2通道" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left"
                           VerticalAlignment="Center" IsChecked="False" Click="CheckBox2_Click" />
-                <CheckBox x:Name="CheckBox3" Grid.Row="1" Grid.Column="0" Content="2通道L" HorizontalAlignment="Left"
+                <CheckBox x:Name="CheckBox3" Grid.Row="1" Grid.Column="0" Content="3通道" HorizontalAlignment="Left"
                           VerticalAlignment="Center" IsChecked="False" Click="CheckBox3_Click" />
-                <CheckBox x:Name="CheckBox4" Grid.Row="1" Grid.Column="1" Content="2通道R" HorizontalAlignment="Left"
+                <CheckBox x:Name="CheckBox4" Grid.Row="1" Grid.Column="1" Content="4通道" HorizontalAlignment="Left"
                           VerticalAlignment="Center" IsChecked="False" Click="CheckBox4_Click" />
-                <CheckBox x:Name="CheckBox5" Grid.Row="2" Grid.Column="0" Content="3通道L" HorizontalAlignment="Left"
+                <CheckBox x:Name="CheckBox5" Grid.Row="2" Grid.Column="0" Content="5通道" HorizontalAlignment="Left"
                           VerticalAlignment="Center" IsChecked="False" Click="CheckBox5_Click" />
-                <CheckBox x:Name="CheckBox6" Grid.Row="2" Grid.Column="1" Content="3通道R" HorizontalAlignment="Left"
+                <CheckBox x:Name="CheckBox6" Grid.Row="2" Grid.Column="1" Content="6通道" HorizontalAlignment="Left"
                           VerticalAlignment="Center" IsChecked="False" Click="CheckBox6_Click" />
-                <CheckBox x:Name="CheckBox7" Grid.Row="3" Grid.Column="0" Content="4通道L" HorizontalAlignment="Left"
+                <CheckBox x:Name="CheckBox7" Grid.Row="3" Grid.Column="0" Content="7通道" HorizontalAlignment="Left"
                           VerticalAlignment="Center" IsChecked="False" Click="CheckBox7_Click" />
-                <CheckBox x:Name="CheckBox8" Grid.Row="3" Grid.Column="1" Content="4通道R" HorizontalAlignment="Left"
+                <CheckBox x:Name="CheckBox8" Grid.Row="3" Grid.Column="1" Content="8通道" HorizontalAlignment="Left"
                           VerticalAlignment="Center" IsChecked="False" Click="CheckBox8_Click" />
-                <CheckBox x:Name="CheckBox9" Grid.Row="4" Grid.Column="0" Content="5通道L" HorizontalAlignment="Left"
+                <CheckBox x:Name="CheckBox9" Grid.Row="4" Grid.Column="0" Content="9通道" HorizontalAlignment="Left"
                           VerticalAlignment="Center" IsChecked="False" Click="CheckBox9_Click" />
-                <CheckBox x:Name="CheckBox10" Grid.Row="4" Grid.Column="1" Content="5通道R" HorizontalAlignment="Left"
+                <CheckBox x:Name="CheckBox10" Grid.Row="4" Grid.Column="1" Content="10通道" HorizontalAlignment="Left"
                           VerticalAlignment="Center" IsChecked="False" Click="CheckBox10_Click" />
-                <CheckBox x:Name="CheckBox11" Grid.Row="5" Grid.Column="0" Content="6通道L" HorizontalAlignment="Left"
+                <CheckBox x:Name="CheckBox11" Grid.Row="5" Grid.Column="0" Content="11通道" HorizontalAlignment="Left"
                           VerticalAlignment="Center" IsChecked="False" Click="CheckBox11_Click" />
-                <CheckBox x:Name="CheckBox12" Grid.Row="5" Grid.Column="1" Content="6通道R" HorizontalAlignment="Left"
+                <CheckBox x:Name="CheckBox12" Grid.Row="5" Grid.Column="1" Content="12通道" HorizontalAlignment="Left"
                           VerticalAlignment="Center" IsChecked="False" Click="CheckBox12_Click" />
-                <CheckBox x:Name="CheckBox13" Grid.Row="6" Grid.Column="0" Content="7通道L" HorizontalAlignment="Left"
+                <CheckBox x:Name="CheckBox13" Grid.Row="6" Grid.Column="0" Content="13通道" HorizontalAlignment="Left"
                           VerticalAlignment="Center" IsChecked="False" Click="CheckBox13_Click" />
-                <CheckBox x:Name="CheckBox14" Grid.Row="6" Grid.Column="1" Content="7通道R" HorizontalAlignment="Left"
+                <CheckBox x:Name="CheckBox14" Grid.Row="6" Grid.Column="1" Content="14通道" HorizontalAlignment="Left"
                           VerticalAlignment="Center" IsChecked="False" Click="CheckBox14_Click" />
-                <CheckBox x:Name="CheckBox15" Grid.Row="7" Grid.Column="0" Content="8通道L" HorizontalAlignment="Left"
+                <CheckBox x:Name="CheckBox15" Grid.Row="7" Grid.Column="0" Content="15通道" HorizontalAlignment="Left"
                           VerticalAlignment="Center" IsChecked="False" Click="CheckBox15_Click" />
-                <CheckBox x:Name="CheckBox16" Grid.Row="7" Grid.Column="1" Content="8通道R" HorizontalAlignment="Left"
+                <CheckBox x:Name="CheckBox16" Grid.Row="7" Grid.Column="1" Content="16通道" HorizontalAlignment="Left"
                           VerticalAlignment="Center" IsChecked="False" Click="CheckBox16_Click" />
             </Grid>
         </GroupBox>
